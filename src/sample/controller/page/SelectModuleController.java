@@ -6,6 +6,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import sample.entity.module.ActiveModule;
 import sample.service.impl.NotificationServiceImpl;
 import sample.controller.routing.RouteController;
 import sample.entity.student.ActiveUser;
@@ -36,6 +37,8 @@ public class SelectModuleController {
     ///////////////////////////////////// State variables /////////////////////////////////////
 
     private final ActiveUser activeUser = ActiveUser.getActiveUser();
+
+    private final ActiveModule activeModule = ActiveModule.getActiveModule();
 
     ///////////////////////////////////// Services /////////////////////////////////////
 
@@ -76,6 +79,7 @@ public class SelectModuleController {
                 } else {
                     RouteController.getInstance().redirect(new Stage(), "../../templates/student.fxml");
                 }
+                activeModule.moduleName = modules.getSelectionModel().getSelectedItem();
             } catch (IOException e) {
                 e.printStackTrace();
             }

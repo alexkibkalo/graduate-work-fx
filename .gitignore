@@ -1,2 +1,22 @@
-# Project exclude paths
 /out/
+.gradle
+build
+.idea/.gitignore
+.idea/artifacts/
+.idea/compiler.xml
+.idea/dataSources.xml
+.idea/description.html
+.idea/encodings.xml
+.idea/gradle.xml
+.idea/inspectionProfiles/
+.idea/libraries/
+.idea/misc.xml
+.idea/modules.xml
+.idea/uiDesigner.xml
+.idea/vcs.xml
+graduate-work-fx.iml
+src/main/resources/
+src/test/resources/
+gradle
+gradlew
+gradlew.bat

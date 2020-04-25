@@ -5,6 +5,12 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import sample.controller.routing.RouteController;
+import sample.entity.module.ActiveModule;
+import sample.entity.student.ActiveUser;
+import sample.service.StudentService;
+import sample.service.TeacherService;
+import sample.service.impl.StudentServiceImpl;
+import sample.service.impl.TeacherServiceImpl;
 
 import java.io.IOException;
 
@@ -41,10 +47,15 @@ public class StudentPageController {
 
     ///////////////////////////////////// State variables /////////////////////////////////////
 
+    private final ActiveUser activeUser = ActiveUser.getActiveUser();
 
+    private final ActiveModule activeModule = ActiveModule.getActiveModule();
 
     ///////////////////////////////////// Services /////////////////////////////////////
 
+    private final StudentService studentService = new StudentServiceImpl();
+
+    private final TeacherService teacherService = new TeacherServiceImpl();
 
     ////////////////////////////////// Initialize block /////////////////////////////////
 
@@ -60,9 +71,11 @@ public class StudentPageController {
                 }
         );
 
-        showTrueResult.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
-
-                }
-        );
+        finishLab.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
+            studentService.finishLab(
+                    teacherService.findIdByStudentName(activeUser.username),
+                    teacherService.findIdByModuleName(activeModule.moduleName)
+            );
+        });
     }
 }

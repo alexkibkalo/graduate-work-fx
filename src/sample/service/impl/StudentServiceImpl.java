@@ -69,4 +69,28 @@ public class StudentServiceImpl implements StudentService {
         }
         return false;
     }
+
+    @Override
+    public void finishLab(Long userId, Long labId) {
+
+        Connection connection = ConnectionUtil.getConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(QueryConstant.FINISH_LAB_WORK);
+            preparedStatement.setLong(1, userId);
+            preparedStatement.setLong(2, labId);
+
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            disconnectionUtil.setConnection(connection);
+            disconnectionUtil.setPreparedStatement(preparedStatement);
+            disconnectionUtil.setResultSet(resultSet);
+            disconnectionUtil.disconnect();
+        }
+    }
 }

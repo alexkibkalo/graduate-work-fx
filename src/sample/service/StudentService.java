@@ -6,4 +6,6 @@ public interface StudentService {
 
     boolean hasStudentLaboratoryWork(Long userId, Long labId);
 
+    void finishLab(Long userId, Long labId);
+
 }

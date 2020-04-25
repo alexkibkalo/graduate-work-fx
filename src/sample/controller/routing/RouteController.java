@@ -12,7 +12,7 @@ public class RouteController {
 
     private RouteController() { }
 
-    private static RouteController routeController = new RouteController();
+    private static final RouteController routeController = new RouteController();
 
     public static RouteController getInstance() {
         return routeController;
