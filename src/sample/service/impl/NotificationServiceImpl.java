@@ -1,0 +1,118 @@
+package sample.service.impl;
+
+import javafx.scene.control.Alert;
+import sample.service.NotificationService;
+
+public class NotificationServiceImpl implements NotificationService {
+
+    ///////////////////     INFORMATION     ////////////////////
+
+    public void showDatabaseSuccessfullyCreated(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Create DATABASE");
+        alert.setContentText("Database successfully created!");
+        alert.showAndWait();
+    }
+
+    public void showQuerySuccessfullyCreated(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Create QUERY");
+        alert.setContentText("Query successfully created!");
+        alert.showAndWait();
+    }
+
+    public void showStudentSuccessfullyCreated(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Create STUDENT");
+        alert.setContentText("Student successfully created!");
+        alert.showAndWait();
+    }
+
+    public void showModuleSuccessfullyCreated(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Create MODULE");
+        alert.setContentText("Module successfully created!");
+        alert.showAndWait();
+    }
+
+    public void showThemeSuccessfullyCreated(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Create THEME");
+        alert.setContentText("Theme successfully created!");
+        alert.showAndWait();
+    }
+
+    public void showStudentGroupSuccessfullyCreated(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Create Student Group");
+        alert.setContentText("Student Group successfully created!");
+        alert.showAndWait();
+    }
+
+    public void showStudentSelectModule(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Select module");
+        alert.setContentText("Student -> Module selected :)\n");
+        alert.showAndWait();
+    }
+
+    ///////////////////     WARNING     ////////////////////
+
+    public void showDatabaseAlreadyExist(){
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Create Database");
+        alert.setContentText("Database already exist...\n");
+        alert.showAndWait();
+    }
+
+    public void showModuleAlreadyExist(){
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Create Module");
+        alert.setContentText("Module already exist...\n");
+        alert.showAndWait();
+    }
+
+    public void showThemeAlreadyExist(){
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Create Theme");
+        alert.setContentText("Theme already exist...\n");
+        alert.showAndWait();
+    }
+
+    public void showQueryAlreadyExist(){
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Create Query");
+        alert.setContentText("Query already exist...\n");
+        alert.showAndWait();
+    }
+
+    public void showGroupAlreadyExist(){
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Create Group");
+        alert.setContentText("Group already exist...\n");
+        alert.showAndWait();
+    }
+
+    public void showStudentAlreadyExist(){
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Create Student");
+        alert.setContentText("Student already exist...\n");
+        alert.showAndWait();
+    }
+
+    public void joinAlreadyExist() {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Create join");
+        alert.setContentText("Student has already had this lab! Take another please...\n");
+        alert.showAndWait();
+    }
+
+    ///////////////////     ERROR     ////////////////////
+
+    public void showSomethingWentWrong(){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Create DATABASE");
+        alert.setContentText("Ups... Something went wrong...\n");
+        alert.showAndWait();
+    }
+}

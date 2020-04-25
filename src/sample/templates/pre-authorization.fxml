@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="750.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controller.page.SelectModuleController">
+   <ChoiceBox fx:id="modules" layoutX="10.0" layoutY="325.0" prefWidth="150.0" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="350.0" />
+   <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c38706" height="39.0" stroke="BLACK" strokeType="INSIDE" width="1200.0" />
+   <Label layoutX="350.0" layoutY="300.0" text="Module" />
+   <Button fx:id="send" layoutX="750.0" layoutY="417.0" mnemonicParsing="false" text="Send" AnchorPane.leftAnchor="750.0" AnchorPane.rightAnchor="350.0" AnchorPane.topAnchor="417.0" />
+   <Label layoutX="405.0" layoutY="100.0" text="Pre-Authorization">
+      <font>
+         <Font size="45.0" />
+      </font>
+   </Label>
+   <Button fx:id="cancel" layoutX="350.0" layoutY="417.0" mnemonicParsing="false" text="Cancel" AnchorPane.bottomAnchor="306.0" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="750.0" AnchorPane.topAnchor="417.0" />
+   <TextField fx:id="visibleQueries" layoutX="350.0" layoutY="380.0" prefHeight="27.0" prefWidth="500.0" />
+   <Label layoutX="350.0" layoutY="358.0" text="Number of visible requests" />
+</AnchorPane>
