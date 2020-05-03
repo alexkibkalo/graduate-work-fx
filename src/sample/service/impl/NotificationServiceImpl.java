@@ -49,13 +49,6 @@ public class NotificationServiceImpl implements NotificationService {
         alert.showAndWait();
     }
 
-    public void showStudentSelectModule(){
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Select module");
-        alert.setContentText("Student -> Module selected :)\n");
-        alert.showAndWait();
-    }
-
     ///////////////////     WARNING     ////////////////////
 
     public void showDatabaseAlreadyExist(){

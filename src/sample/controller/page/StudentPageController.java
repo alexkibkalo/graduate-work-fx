@@ -1,12 +1,14 @@
 package sample.controller.page;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.TabPane;
+import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import sample.controller.routing.RouteController;
 import sample.entity.module.ActiveModule;
-import sample.entity.student.ActiveUser;
+import sample.entity.user.ActiveUser;
 import sample.service.StudentService;
 import sample.service.TeacherService;
 import sample.service.impl.StudentServiceImpl;
@@ -22,28 +24,20 @@ public class StudentPageController {
     private Button logout;
 
     @FXML
-    private TextArea query;
-
-    @FXML
-    private TextArea resultSet;
-
-    @FXML
-    private Label taskDescription;
-
-    @FXML
-    private TextArea trueResultSet;
-
-    @FXML
-    private Button check;
-
-    @FXML
-    private Button showTrueResult;
-
-    @FXML
     private Button finishLab;
 
     @FXML
-    private Pagination pagination;
+    private TabPane tasks;
+
+    private TextArea query;
+
+    private TextArea result;
+
+    private TextArea trueResult;
+
+    private Button checkQuery;
+
+    private Button showTrueResult;
 
     ///////////////////////////////////// State variables /////////////////////////////////////
 
@@ -62,8 +56,17 @@ public class StudentPageController {
     @FXML
     public void initialize() {
 
+        studentService.initializeTasks(
+                studentService.findAllQueriesByLabId(
+                        teacherService.findIdByModuleName(activeModule.moduleName)
+                ),
+                tasks
+        );
+
         logout.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
                     try {
+                        activeUser.username = null;
+                        activeModule.moduleName = null;
                         RouteController.getInstance().redirect(new Stage(), "../../templates/login.fxml");
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -71,11 +74,9 @@ public class StudentPageController {
                 }
         );
 
-        finishLab.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
-            studentService.finishLab(
-                    teacherService.findIdByStudentName(activeUser.username),
-                    teacherService.findIdByModuleName(activeModule.moduleName)
-            );
-        });
+        finishLab.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> studentService.finishLab(
+                teacherService.findIdByStudentName(activeUser.username),
+                teacherService.findIdByModuleName(activeModule.moduleName)
+        ));
     }
 }

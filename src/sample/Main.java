@@ -7,7 +7,7 @@ import sample.controller.routing.RouteController;
 public class Main extends Application {
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) throws Exception {
         RouteController.getInstance().init(primaryStage);
     }
 

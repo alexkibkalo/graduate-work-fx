@@ -1,32 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Pagination?>
-<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="750.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controller.page.StudentPageController">
-   <children>
-      <Button fx:id="logout" layoutX="1107.0" layoutY="55.0" mnemonicParsing="false" style="-fx-background-color: #464646;" text="Logout" textFill="#ebae13" />
-      <Label layoutX="15.0" layoutY="46.0" prefHeight="54.0" prefWidth="269.0" text="Student page" textAlignment="CENTER" textFill="#6f5900">
-         <font>
+    <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c38706" height="39.0" stroke="BLACK" strokeType="INSIDE" width="1223.0" />
+    <Label layoutX="15.0" layoutY="46.0" prefHeight="54.0" prefWidth="269.0" text="Student page" textAlignment="CENTER" textFill="#6f5900">
+        <font>
             <Font name="System Bold Italic" size="31.0" />
-         </font>
-      </Label>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c38706" height="39.0" stroke="BLACK" strokeType="INSIDE" width="1223.0" />
-      <Pagination fx:id="pagination" layoutX="-4.0" layoutY="106.0" prefHeight="642.0" prefWidth="1226.0" />
-      <Label fx:id="taskDescription" alignment="CENTER" contentDisplay="CENTER" layoutX="646.0" layoutY="155.0" prefHeight="182.0" prefWidth="470.0" text="Task description" />
-      <TextArea fx:id="query" layoutX="76.0" layoutY="151.0" prefHeight="187.0" prefWidth="498.0" />
-      <TextArea fx:id="resultSet" layoutX="75.0" layoutY="400.0" prefHeight="187.0" prefWidth="498.0" />
-      <TextArea fx:id="trueResultSet" layoutX="627.0" layoutY="398.0" prefHeight="187.0" prefWidth="498.0" />
-      <Label layoutX="78.0" layoutY="118.0" text="Query" />
-      <Label layoutX="80.0" layoutY="367.0" text="ResutSet" />
-      <Label layoutX="632.0" layoutY="363.0" text="True ResultSet" />
-      <Button fx:id="check" layoutX="77.0" layoutY="598.0" mnemonicParsing="false" text="Check" />
-      <Button fx:id="showTrueResult" layoutX="630.0" layoutY="597.0" mnemonicParsing="false" text="Show True Result" />
-      <Button fx:id="finishLab" layoutX="1014.0" layoutY="55.0" mnemonicParsing="false" style="-fx-background-color: #464646;" text="Finish lab" textFill="#76c65b" />
-   </children>
+        </font>
+    </Label>
+    <Button fx:id="logout" layoutX="1122.0" layoutY="55.0" mnemonicParsing="false" style="-fx-background-color: #464646;" text="Logout" textFill="#ebae13" AnchorPane.leftAnchor="1122.0" AnchorPane.topAnchor="55.0" />
+    <Button fx:id="finishLab" layoutX="1029.0" layoutY="55.0" mnemonicParsing="false" style="-fx-background-color: #464646;" text="Finish lab" textFill="#76c65b" />
+    <TabPane fx:id="tasks" layoutY="106.0" prefHeight="615.0" prefWidth="1222.0" style="-fx-background-color: #F4F4F4;" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0">
+        <opaqueInsets>
+            <Insets />
+        </opaqueInsets>
+    </TabPane>
 </AnchorPane>

@@ -1,4 +1,4 @@
-package sample.entity.student;
+package sample.entity.user;
 
 public class ActiveUser {
 

@@ -14,8 +14,6 @@ public interface NotificationService {
 
     void showStudentGroupSuccessfullyCreated();
 
-    void showStudentSelectModule();
-
     void showDatabaseAlreadyExist();
 
     void showModuleAlreadyExist();

@@ -4,7 +4,8 @@ public class ActiveModule {
 
     public String moduleName;
 
-    private ActiveModule() { }
+    private ActiveModule() {
+    }
 
     private static ActiveModule activeModule = new ActiveModule();
 
@@ -12,6 +13,7 @@ public class ActiveModule {
         return activeModule;
     }
 
-    public static void setActiveModuleFields(String moduleName){
+    public static void setActiveModuleFields(String moduleName) {
         activeModule.moduleName = moduleName;
-    }}
+    }
+}

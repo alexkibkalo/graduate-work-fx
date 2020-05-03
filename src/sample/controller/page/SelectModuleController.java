@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 import sample.entity.module.ActiveModule;
 import sample.service.impl.NotificationServiceImpl;
 import sample.controller.routing.RouteController;
-import sample.entity.student.ActiveUser;
+import sample.entity.user.ActiveUser;
 import sample.service.StudentService;
 import sample.service.TeacherService;
 import sample.service.impl.StudentServiceImpl;
@@ -71,15 +71,15 @@ public class SelectModuleController {
                             teacherService.findIdByModuleName(modules.getSelectionModel().getSelectedItem()),
                             Long.parseLong(visibleQueries.getText())
                     )) {
+                        ActiveModule.setActiveModuleFields(modules.getSelectionModel().getSelectedItem());
                         RouteController.getInstance().redirect(new Stage(), "../../templates/student.fxml");
-                        notificationService.showStudentSelectModule();
                     } else {
                         notificationService.showSomethingWentWrong();
                     }
                 } else {
+                    ActiveModule.setActiveModuleFields(modules.getSelectionModel().getSelectedItem());
                     RouteController.getInstance().redirect(new Stage(), "../../templates/student.fxml");
                 }
-                activeModule.moduleName = modules.getSelectionModel().getSelectedItem();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -87,6 +87,8 @@ public class SelectModuleController {
 
         cancel.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
             try {
+                activeUser.username = null;
+                activeModule.moduleName = null;
                 RouteController.getInstance().redirect(new Stage(), "../../templates/login.fxml");
             } catch (IOException e) {
                 e.printStackTrace();

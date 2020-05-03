@@ -160,42 +160,6 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public boolean studentGroupExistByName(String name) {
-        // TODO
-        return false;
-    }
-
-    @Override
-    public boolean studentExistByLogin(String login) {
-        // TODO
-        return false;
-    }
-
-    @Override
-    public boolean moduleExistByName(String name) {
-        // TODO
-        return false;
-    }
-
-    @Override
-    public boolean themeExistByName(String name) {
-        // TODO
-        return false;
-    }
-
-    @Override
-    public boolean databaseExistByName(String name) {
-        // TODO
-        return false;
-    }
-
-    @Override
-    public boolean queryExistBy(String name) {
-        // TODO
-        return false;
-    }
-
-    @Override
     public List<String> findAllStudentGroups() {
 
         Connection connection = ConnectionUtil.getConnection();
@@ -340,8 +304,30 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public Long findIdByThemeName(String name) {
-        // TODO
-        return null;
+
+        Connection connection = ConnectionUtil.getConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(QueryConstant.SELECT_THEME_BY_NAME);
+            preparedStatement.setString(1, name);
+
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                return resultSet.getLong("id");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            disconnectionUtil.setConnection(connection);
+            disconnectionUtil.setPreparedStatement(preparedStatement);
+            disconnectionUtil.setResultSet(resultSet);
+            disconnectionUtil.disconnect();
+        }
+        return 0L;
     }
 
     @Override

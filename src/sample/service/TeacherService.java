@@ -18,20 +18,6 @@ public interface TeacherService {
 
     boolean addQuery(String name, String description, Long moduleId, Long databaseId);
 
-    ////// Validation on exist //////
-
-    boolean studentGroupExistByName(String name);
-
-    boolean studentExistByLogin(String login);
-    
-    boolean moduleExistByName(String name);
-
-    boolean themeExistByName(String name);
-
-    boolean databaseExistByName(String name);
-
-    boolean queryExistBy(String name);
-
     ///// Find operations //////
 
     List<String> findAllStudentGroups();

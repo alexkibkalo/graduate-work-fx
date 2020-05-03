@@ -8,7 +8,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import sample.controller.routing.RouteController;
-import sample.entity.student.ActiveUser;
+import sample.entity.user.ActiveUser;
 import sample.service.ValidationService;
 import sample.service.impl.ValidationServiceImpl;
 

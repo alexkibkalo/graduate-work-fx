@@ -28,6 +28,7 @@ public class QueryConstant {
     ///////// QUERY /////////////
     public final static String CREATE_NEW_QUERY = "INSERT INTO query (name, description, module_id, database_id) VALUES (?, ?, ?, ?)";
     public final static String SELECT_QUERY_BY_NAME = "SELECT * FROM query WHERE name = ?";
+    public final static String SELECT_ALL_QUERIES_BY_LAB_ID = "SELECT * FROM query WHERE module_id = ?";
     public final static String FINISH_LAB_WORK = "UPDATE student_to_lab SET is_finished = 1 where student_id = ? and lab_id = ?";
 
     ///////// MODULE ////////////
