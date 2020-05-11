@@ -49,6 +49,14 @@ public class NotificationServiceImpl implements NotificationService {
         alert.showAndWait();
     }
 
+    @Override
+    public void showStatisticUpdated() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Statistic");
+        alert.setContentText("Statistic successfully updated!");
+        alert.showAndWait();
+    }
+
     ///////////////////     WARNING     ////////////////////
 
     public void showDatabaseAlreadyExist(){

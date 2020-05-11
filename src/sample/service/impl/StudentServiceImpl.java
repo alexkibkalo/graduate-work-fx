@@ -1,10 +1,5 @@
 package sample.service.impl;
 
-import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 import sample.entity.task.Task;
 import sample.service.StudentService;
 import sample.utils.db.connection.ConnectionUtil;
@@ -13,7 +8,9 @@ import sample.utils.db.disconnection.DisconnectionUtil;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class StudentServiceImpl implements StudentService {
 
@@ -118,6 +115,7 @@ public class StudentServiceImpl implements StudentService {
                 task.setId(resultSet.getLong("id"));
                 task.setDescription(resultSet.getString("description"));
                 task.setTrueQuery(resultSet.getString("name"));
+                task.setDatabaseId(resultSet.getLong("database_id"));
                 tasks.add(task);
             }
 
@@ -132,26 +130,32 @@ public class StudentServiceImpl implements StudentService {
         return tasks;
     }
 
-
     @Override
-    public String checkQuery(String query) {
-        return null;
-    }
+    public Map<Integer, List<String>> executeTrueQuery(String query, String url) throws SQLException {
 
-    @Override
-    public List<String> executeTrueQuery(String query) throws SQLException {
-
-        Connection connection = ConnectionUtil.getConnection();
+        Connection connection = ConnectionUtil.getConnectionForLaboratoryWork(url, "postgres", "root");
         Statement statement;
         ResultSet resultSet;
-        List<String> rows = new ArrayList<>();
+        Map<Integer, List<String>> result = new HashMap<>();
+        List<String> rowContent = new ArrayList<>();
 
         statement = connection.createStatement();
         statement.executeQuery(query);
         resultSet = statement.getResultSet();
 
+        int countOfColumn = resultSet.getMetaData().getColumnCount();
+        int currentColumn;
+        int currentRow = 1;
+
         while (resultSet.next()) {
-            rows.add(resultSet.getString("id"));
+            currentColumn = 1;
+            while (currentColumn <= countOfColumn) {
+                rowContent.add(resultSet.getString(currentColumn));
+                currentColumn++;
+            }
+            result.put(currentRow, rowContent);
+            rowContent = new ArrayList<>();
+            currentRow++;
         }
 
         disconnectionUtil.setConnection(connection);
@@ -159,119 +163,6 @@ public class StudentServiceImpl implements StudentService {
         disconnectionUtil.setResultSet(resultSet);
         disconnectionUtil.disconnect();
 
-        return rows;
-    }
-
-    @Override
-    public void initializeTasks(List<Task> list, TabPane tasks) {
-        int index = 1;
-        for (Task task : list) {
-            Tab tab = new Tab("Task " + index);
-
-            VBox content = new VBox();
-
-            content.getChildren().add(new Label());
-            content.getChildren().add(subContent1(task.getDescription()));
-            content.getChildren().add(subContent2(task.getTrueQuery()));
-            content.getChildren().add(subContent3());
-            content.getChildren().add(subContent4());
-
-            content.setSpacing(20);
-
-            tab.setContent(content);
-            tasks.getTabs().add(tab);
-
-            index += 1;
-        }
-    }
-
-    public HBox subContent1(String description) {
-        HBox subContent = new HBox();
-
-        Label taskDescription = new Label(description);
-        taskDescription.setFont(Font.font(30));
-        taskDescription.setWrapText(true);
-
-        subContent.getChildren().add(new Label());
-        subContent.getChildren().add(taskDescription);
-
-        subContent.setSpacing(15);
-
-        return subContent;
-    }
-
-    public HBox subContent2(String trueResult) {
-        HBox subContent = new HBox();
-
-        Label queryLabel = new Label();
-        queryLabel.setText("Query  ");
-
-        TextArea queryBody = new TextArea();
-        queryBody.setStyle("-fx-max-height: 200; -fx-max-width: 430");
-
-        Label resultLabel = new Label();
-        resultLabel.setText("True result");
-
-        TextArea resultBody = new TextArea();
-        resultBody.setStyle("-fx-max-height: 200; -fx-max-width: 430");
-
-        Button check = new Button();
-        check.setText("Show result");
-
-        check.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
-            StringBuilder stringBuilder = new StringBuilder();
-            try {
-                for (String name : executeTrueQuery(trueResult)) {
-                    stringBuilder.append(name).append("\n");
-                }
-                resultBody.setText(stringBuilder.toString());
-            } catch (SQLException exception) {
-                resultBody.setText(exception.getMessage());
-            }
-        });
-
-        subContent.getChildren().add(new Label());
-        subContent.getChildren().add(queryLabel);
-        subContent.getChildren().add(queryBody);
-        subContent.getChildren().add(resultLabel);
-        subContent.getChildren().add(resultBody);
-        subContent.getChildren().add(check);
-
-        subContent.setSpacing(20);
-
-        return subContent;
-    }
-
-    public HBox subContent3() {
-        HBox subContent = new HBox();
-
-        Label trueQueryLabel = new Label();
-        trueQueryLabel.setText("Result ");
-
-        TextArea trueResultBody = new TextArea();
-        trueResultBody.setStyle("-fx-max-height: 200; -fx-max-width: 432");
-
-        subContent.getChildren().add(new Label());
-        subContent.getChildren().add(trueQueryLabel);
-        subContent.getChildren().add(trueResultBody);
-
-        subContent.setSpacing(20);
-
-        return subContent;
-    }
-
-    public HBox subContent4() {
-        Label emptySpace = new Label("\t\t");
-        HBox subContent = new HBox();
-
-        Button showResult = new Button();
-        showResult.setText("Check query");
-
-        subContent.getChildren().add(emptySpace);
-        subContent.getChildren().add(showResult);
-
-        subContent.setSpacing(20);
-
-        return subContent;
+        return result;
     }
 }

@@ -1,5 +1,7 @@
 package sample.service;
 
+import sample.entity.student.Student;
+
 import java.util.List;
 
 public interface TeacherService {
@@ -24,6 +26,8 @@ public interface TeacherService {
 
     List<String> findAllModules();
 
+    List<Student> findAllStudents();
+
     List<String> findAllNotFinishedModules(Long userId);
 
     Long findIdByStudentGroupName(String name);
@@ -39,4 +43,6 @@ public interface TeacherService {
     Long findIdByDatabaseName(String name);
 
     Long findIdByStudentName(String name);
+
+    boolean updateStudentStatistic();
 }

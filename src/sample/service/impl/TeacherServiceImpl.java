@@ -1,5 +1,6 @@
 package sample.service.impl;
 
+import sample.entity.student.Student;
 import sample.service.TeacherService;
 import sample.utils.db.connection.ConnectionUtil;
 import sample.utils.db.constant.QueryConstant;
@@ -215,6 +216,42 @@ public class TeacherServiceImpl implements TeacherService {
         }
 
         return modules;
+    }
+
+    @Override
+    public List<Student> findAllStudents() {
+
+        Connection connection = ConnectionUtil.getConnection();
+        Statement statement = null;
+        ResultSet resultSet = null;
+        List<Student> students = new ArrayList<>();
+
+        try {
+            statement = connection.createStatement();
+            statement.executeQuery(QueryConstant.SELECT_ALL_STUDENTS);
+            resultSet = statement.getResultSet();
+            Student student;
+
+            while (resultSet.next()) {
+                student = new Student();
+                student.setId(resultSet.getLong("id_s"));
+                student.setName(resultSet.getString("name_s"));
+                student.setSurname(resultSet.getString("surname"));
+                student.setGroupName(resultSet.getString("name_st"));
+                student.setStatus(resultSet.getDouble("status"));
+                students.add(student);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            disconnectionUtil.setConnection(connection);
+            disconnectionUtil.setStatement(statement);
+            disconnectionUtil.setResultSet(resultSet);
+            disconnectionUtil.disconnect();
+        }
+
+        return students;
     }
 
     @Override
@@ -442,5 +479,25 @@ public class TeacherServiceImpl implements TeacherService {
             disconnectionUtil.disconnect();
         }
         return 0L;
+    }
+
+    @Override
+    public boolean updateStudentStatistic() {
+        Connection connection = ConnectionUtil.getConnection();
+        Statement statement = null;
+        boolean status = false;
+
+        try {
+            statement = connection.createStatement();
+            statement.executeUpdate(QueryConstant.UPDATE_STUDENTS_STATISTIC);
+            status = true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            disconnectionUtil.setConnection(connection);
+            disconnectionUtil.setStatement(statement);
+            disconnectionUtil.disconnect();
+        }
+        return status;
     }
 }

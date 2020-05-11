@@ -14,6 +14,8 @@ public interface NotificationService {
 
     void showStudentGroupSuccessfullyCreated();
 
+    void showStatisticUpdated();
+
     void showDatabaseAlreadyExist();
 
     void showModuleAlreadyExist();
@@ -27,5 +29,4 @@ public interface NotificationService {
     void showStudentAlreadyExist();
 
     void showSomethingWentWrong();
-
 }

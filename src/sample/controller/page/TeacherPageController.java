@@ -87,6 +87,12 @@ public class TeacherPageController {
     @FXML
     private Button addTheme;
 
+    @FXML
+    private Button checkOutStatistic;
+
+    @FXML
+    private Button updateStatistic;
+
     ///////////////////////////////////// Services /////////////////////////////////////
 
     private final ValidationService validationService = new ValidationServiceImpl();
@@ -215,5 +221,21 @@ public class TeacherPageController {
                     }
                 }
         );
+
+        updateStatistic.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
+            if(teacherService.updateStudentStatistic()){
+                notificationService.showStatisticUpdated();
+            } else {
+                notificationService.showSomethingWentWrong();
+            }
+        });
+
+        checkOutStatistic.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
+            try {
+                RouteController.getInstance().redirect(new Stage(), "../../templates/statistics.fxml");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 }

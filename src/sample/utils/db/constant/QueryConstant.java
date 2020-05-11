@@ -4,6 +4,7 @@ public class QueryConstant {
 
     ///////// TEACHER ///////////
     public final static String SELECT_TEACHER_BY_LOGIN_AND_PASSWORD = "SELECT * FROM teacher WHERE login = ? AND password = ?";
+    public final static String UPDATE_STUDENTS_STATISTIC = "call update_students_statistic()";
 
     ///////// GROUP  ////////////
     public final static String CREATE_NEW_STUDENT_GROUP = "INSERT INTO student_group (name) VALUES (?)";
@@ -13,12 +14,14 @@ public class QueryConstant {
     ///////// STUDENT ///////////
     public final static String SELECT_USER_BY_LOGIN_AND_PASSWORD = "SELECT * FROM student WHERE login = ? AND password = ?";
     public final static String SELECT_STUDENT_BY_NAME = "SELECT * FROM student WHERE login = ?";
+    public final static String SELECT_ALL_STUDENTS = "SELECT s.id as id_s, s.name as name_s, surname, status, st.name as name_st FROM student s INNER JOIN student_group st ON s.group_id = st.id";
     public final static String CREATE_NEW_STUDENT = "INSERT INTO student (name, surname, login, password, status, group_id) VALUES (?, ?, ?, ?, ?, ?)";
 
     ///////// DATABASE //////////
     public final static String SELECT_ALL_DATABASES = "SELECT * FROM database";
     public final static String CREATE_NEW_DATABASE = "INSERT INTO database (name, url) VALUES (?, ?)";
     public final static String SELECT_DATABASE_BY_NAME = "SELECT * FROM database WHERE name = ?";
+    public final static String SELECT_URL_BY_ID = "SELECT url FROM database WHERE id = ?";
 
     ///////// THEME /////////////
     public final static String SELECT_ALL_THEMES = "SELECT * FROM theme";
@@ -40,5 +43,9 @@ public class QueryConstant {
     ////////// JOIN ////////////
     public final static String CREATE_NEW_JOIN = "INSERT INTO student_to_lab (student_id, lab_id, visible_query, is_finished) VALUES (?, ?, ?, ?)";
     public final static String SELECT_JOIN_BY_USER_ID_AND_LAB_ID = "SELECT * FROM student_to_lab WHERE student_id = ? and lab_id = ?";
+
+    //// Executing Lab Work ////
+    public final static String CREATE_STATUS_SUCCESS = "INSERT INTO result_table (stud_id, count_times, query_id) VALUES (?, ?, ?)";
+    public final static String EXISTS_BY_STUDENT_ID_AND_QUERY_ID = "SELECT * FROM result_table WHERE stud_id = ? and query_id = ?";
 
 }
