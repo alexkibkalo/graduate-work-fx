@@ -21,4 +21,5 @@ public interface TaskService {
 
     void initializeTasks(List<Task> list, TabPane tasks);
 
+    boolean existsRowInDB(Long studentId, Long queryId);
 }

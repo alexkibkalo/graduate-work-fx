@@ -22,4 +22,5 @@
             <Insets />
         </opaqueInsets>
     </TabPane>
+   <Label fx:id="nickname" layoutX="23.0" layoutY="11.0" text="Welcome" />
 </AnchorPane>

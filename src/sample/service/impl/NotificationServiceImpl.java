@@ -94,17 +94,10 @@ public class NotificationServiceImpl implements NotificationService {
         alert.showAndWait();
     }
 
-    public void showStudentAlreadyExist(){
+    public void showStudentAlreadyExist() {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Create Student");
         alert.setContentText("Student already exist...\n");
-        alert.showAndWait();
-    }
-
-    public void joinAlreadyExist() {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("Create join");
-        alert.setContentText("Student has already had this lab! Take another please...\n");
         alert.showAndWait();
     }
 
@@ -114,6 +107,14 @@ public class NotificationServiceImpl implements NotificationService {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Create DATABASE");
         alert.setContentText("Ups... Something went wrong...\n");
+        alert.showAndWait();
+    }
+
+    @Override
+    public void showFinishLabNotAllow() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Finish lab");
+        alert.setContentText("For finish laboratory work you have to finish all tasks!!!\n");
         alert.showAndWait();
     }
 }

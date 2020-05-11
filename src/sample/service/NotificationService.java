@@ -29,4 +29,6 @@ public interface NotificationService {
     void showStudentAlreadyExist();
 
     void showSomethingWentWrong();
+
+    void showFinishLabNotAllow();
 }

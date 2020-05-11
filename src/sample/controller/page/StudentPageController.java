@@ -2,20 +2,26 @@ package sample.controller.page;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TabPane;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import sample.controller.routing.RouteController;
 import sample.entity.module.ActiveModule;
+import sample.entity.task.Task;
 import sample.entity.user.ActiveUser;
+import sample.service.NotificationService;
 import sample.service.StudentService;
 import sample.service.TaskService;
 import sample.service.TeacherService;
+import sample.service.impl.NotificationServiceImpl;
 import sample.service.impl.StudentServiceImpl;
 import sample.service.impl.TaskServiceImpl;
 import sample.service.impl.TeacherServiceImpl;
 
 import java.io.IOException;
+import java.util.List;
 
 public class StudentPageController {
 
@@ -29,6 +35,9 @@ public class StudentPageController {
 
     @FXML
     private TabPane tasks;
+
+    @FXML
+    private Label nickname;
 
     ///////////////////////////////////// State variables /////////////////////////////////////
 
@@ -44,11 +53,14 @@ public class StudentPageController {
 
     private final TeacherService teacherService = new TeacherServiceImpl();
 
+    private final NotificationService notificationService = new NotificationServiceImpl();
+
     ////////////////////////////////// Initialize block /////////////////////////////////
 
     @FXML
     public void initialize() {
-
+        nickname.setText("Welcome, " + ActiveUser.getActiveUser().username);
+        nickname.setTextFill(Color.web("#ffffff"));
         taskService.initializeTasks(
                 studentService.findAllQueriesByLabId(
                         teacherService.findIdByModuleName(activeModule.moduleName)
@@ -67,9 +79,29 @@ public class StudentPageController {
                 }
         );
 
-        finishLab.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> studentService.finishLab(
-                teacherService.findIdByStudentName(activeUser.username),
-                teacherService.findIdByModuleName(activeModule.moduleName)
-        ));
+        finishLab.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
+            Long userId = teacherService.findIdByStudentName(activeUser.username);
+            Long moduleId = teacherService.findIdByModuleName(activeModule.moduleName);
+            List<Task> allQueriesByLabId = studentService.findAllQueriesByLabId(
+                    teacherService.findIdByModuleName(activeModule.moduleName)
+            );
+            boolean flag = true;
+            for (Task task : allQueriesByLabId) {
+                if(taskService.existsRowInDB(userId, task.getId())){
+                    flag = false;
+                }
+            }
+            if(flag) {
+                studentService.finishLab(userId, moduleId);
+                try {
+                    activeModule.moduleName = null;
+                    RouteController.getInstance().redirect(new Stage(), "../../templates/pre-authorization.fxml");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                notificationService.showFinishLabNotAllow();
+            }
+        });
     }
 }

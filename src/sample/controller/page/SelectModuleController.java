@@ -3,15 +3,16 @@ package sample.controller.page;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import sample.entity.module.ActiveModule;
-import sample.service.impl.NotificationServiceImpl;
 import sample.controller.routing.RouteController;
+import sample.entity.module.ActiveModule;
 import sample.entity.user.ActiveUser;
 import sample.service.StudentService;
 import sample.service.TeacherService;
+import sample.service.impl.NotificationServiceImpl;
 import sample.service.impl.StudentServiceImpl;
 import sample.service.impl.TeacherServiceImpl;
 import sample.utils.ui.DataLoader;
@@ -34,6 +35,9 @@ public class SelectModuleController {
     @FXML
     private Button cancel;
 
+    @FXML
+    private Label nickname;
+
     ///////////////////////////////////// State variables /////////////////////////////////////
 
     private final ActiveUser activeUser = ActiveUser.getActiveUser();
@@ -52,6 +56,7 @@ public class SelectModuleController {
 
     @FXML
     public void initialize() {
+        nickname.setText("Welcome, " + ActiveUser.getActiveUser().username);
         visibleQueries.setText("10");
         DataLoader.loadDataToChoiceBox(
                 modules,

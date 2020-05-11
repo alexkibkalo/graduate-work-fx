@@ -216,7 +216,7 @@ public class TaskServiceImpl implements TaskService {
             preparedStatement.setLong(2, countOfTimes);
             preparedStatement.setLong(3, queryId);
 
-            if(!existsRowInDB(studentId, queryId)){
+            if(existsRowInDB(studentId, queryId)){
                 preparedStatement.executeUpdate();
             }
 
@@ -229,7 +229,8 @@ public class TaskServiceImpl implements TaskService {
         }
     }
 
-    private boolean existsRowInDB(Long studentId, Long queryId) {
+    @Override
+    public boolean existsRowInDB(Long studentId, Long queryId) {
         Connection connection = ConnectionUtil.getConnection();
         PreparedStatement preparedStatement = null;
         ResultSet resultSet;
@@ -242,7 +243,7 @@ public class TaskServiceImpl implements TaskService {
             resultSet = preparedStatement.executeQuery();
 
             while(resultSet.next()){
-                return true;
+                return false;
             }
 
         } catch (Exception ex) {
@@ -252,6 +253,6 @@ public class TaskServiceImpl implements TaskService {
             disconnectionUtil.setPreparedStatement(preparedStatement);
             disconnectionUtil.disconnect();
         }
-        return false;
+        return true;
     }
 }
