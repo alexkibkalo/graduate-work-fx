@@ -101,6 +101,14 @@ public class NotificationServiceImpl implements NotificationService {
         alert.showAndWait();
     }
 
+    @Override
+    public void showDatabaseDoesNotExist() {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Database create");
+        alert.setContentText("Database doesn't exist!");
+        alert.showAndWait();
+    }
+
     ///////////////////     ERROR     ////////////////////
 
     public void showSomethingWentWrong(){

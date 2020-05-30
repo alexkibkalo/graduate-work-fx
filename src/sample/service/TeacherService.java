@@ -45,4 +45,6 @@ public interface TeacherService {
     Long findIdByStudentName(String name);
 
     boolean updateStudentStatistic();
+
+    boolean validateExistsDatabase(String databaseURL);
 }

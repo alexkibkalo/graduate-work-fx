@@ -48,4 +48,9 @@ public class QueryConstant {
     public final static String CREATE_STATUS_SUCCESS = "INSERT INTO result_table (stud_id, count_times, query_id) VALUES (?, ?, ?)";
     public final static String EXISTS_BY_STUDENT_ID_AND_QUERY_ID = "SELECT * FROM result_table WHERE stud_id = ? and query_id = ?";
 
+    /// POPULATION STATISTIC ///
+    public final static String POPULATION_STATISTICS = "select s.id, s.name as sname, s.surname, s.login, sg.name as sgname, s.status from student s inner join student_group sg on s.group_id = sg.id";
+    public final static String GET_COUNT_OF_TIMES = "select sum(count_times) common_count from result_table where stud_id = ?";
+    public final static String GET_LABS_TO_EXECUTE = "select m.name from student_to_lab stl inner join module m on stl.lab_id = m.id where student_id = ? and is_finished = 0;";
+
 }

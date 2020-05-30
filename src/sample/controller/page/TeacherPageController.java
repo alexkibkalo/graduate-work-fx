@@ -7,10 +7,12 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import sample.service.PasswordService;
 import sample.service.impl.NotificationServiceImpl;
 import sample.controller.routing.RouteController;
 import sample.service.TeacherService;
 import sample.service.ValidationService;
+import sample.service.impl.PasswordServiceImpl;
 import sample.service.impl.TeacherServiceImpl;
 import sample.service.impl.ValidationServiceImpl;
 import sample.utils.ui.DataLoader;
@@ -101,6 +103,8 @@ public class TeacherPageController {
 
     private final NotificationServiceImpl notificationService = new NotificationServiceImpl();
 
+    private final PasswordService passwordService = new PasswordServiceImpl();
+
     ////////////////////////////////// Initialize block /////////////////////////////////
     @FXML
     public void initialize() {
@@ -138,7 +142,7 @@ public class TeacherPageController {
                                 studentName.getText(),
                                 studentSurname.getText(),
                                 studentLogin.getText(),
-                                studentPassword.getText(),
+                                passwordService.hashPassword(studentPassword.getText()),
                                 teacherService.findIdByStudentGroupName(
                                         studentGroupNames.getSelectionModel().getSelectedItem()
                                 )
@@ -188,11 +192,15 @@ public class TeacherPageController {
 
         addDatabase.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
                     if (validationService.databaseAlreadyExist(databaseName.getText())) {
-                        if (teacherService.addDatabase(databaseName.getText(), connectionToDB.getText())) {
-                            DataLoader.loadDataToChoiceBox(databaseNames, teacherService.findAllDatabases());
-                            notificationService.showDatabaseSuccessfullyCreated();
+                        if (teacherService.validateExistsDatabase(connectionToDB.getText())) {
+                            if (teacherService.addDatabase(databaseName.getText(), connectionToDB.getText())) {
+                                DataLoader.loadDataToChoiceBox(databaseNames, teacherService.findAllDatabases());
+                                notificationService.showDatabaseSuccessfullyCreated();
+                            } else {
+                                notificationService.showSomethingWentWrong();
+                            }
                         } else {
-                            notificationService.showSomethingWentWrong();
+                            notificationService.showDatabaseDoesNotExist();
                         }
                     } else {
                         notificationService.showDatabaseAlreadyExist();
@@ -223,7 +231,7 @@ public class TeacherPageController {
         );
 
         updateStatistic.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
-            if(teacherService.updateStudentStatistic()){
+            if (teacherService.updateStudentStatistic()) {
                 notificationService.showStatisticUpdated();
             } else {
                 notificationService.showSomethingWentWrong();

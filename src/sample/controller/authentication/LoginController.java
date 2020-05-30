@@ -9,7 +9,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import sample.controller.routing.RouteController;
 import sample.entity.user.ActiveUser;
+import sample.service.PasswordService;
 import sample.service.ValidationService;
+import sample.service.impl.PasswordServiceImpl;
 import sample.service.impl.ValidationServiceImpl;
 
 import java.io.IOException;
@@ -37,6 +39,8 @@ public class LoginController {
 
     private final ValidationService validationService = new ValidationServiceImpl();
 
+    private final PasswordService passwordService = new PasswordServiceImpl();
+
     ////////////////////////////////// Initialize block /////////////////////////////////
 
     @FXML
@@ -55,7 +59,7 @@ public class LoginController {
         if (validationService.isEmptyFields(login.getText(), password.getText())) {
             message.setText("All field must be filed!");
         } else {
-            if (validationService.authentication(login.getText(), password.getText(), isTeacher)) {
+            if (validationService.authentication(login.getText(), passwordService.hashPassword(password.getText()), isTeacher)) {
                 try {
                     ActiveUser.setActiveUserFields(login.getText());
                     RouteController.getInstance().redirect(new Stage(), path);

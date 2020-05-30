@@ -500,4 +500,10 @@ public class TeacherServiceImpl implements TeacherService {
         }
         return status;
     }
+
+    @Override
+    public boolean validateExistsDatabase(String databaseURL) {
+        Connection connection = ConnectionUtil.getConnectionForLaboratoryWork(databaseURL,"postgres", "root");
+        return connection != null;
+    }
 }
