@@ -7,6 +7,7 @@ public class NotificationServiceImpl implements NotificationService {
 
     ///////////////////     INFORMATION     ////////////////////
 
+    @Override
     public void showDatabaseSuccessfullyCreated(){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Create DATABASE");
@@ -14,6 +15,7 @@ public class NotificationServiceImpl implements NotificationService {
         alert.showAndWait();
     }
 
+    @Override
     public void showQuerySuccessfullyCreated(){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Create QUERY");
@@ -21,6 +23,7 @@ public class NotificationServiceImpl implements NotificationService {
         alert.showAndWait();
     }
 
+    @Override
     public void showStudentSuccessfullyCreated(){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Create STUDENT");
@@ -28,6 +31,7 @@ public class NotificationServiceImpl implements NotificationService {
         alert.showAndWait();
     }
 
+    @Override
     public void showModuleSuccessfullyCreated(){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Create MODULE");
@@ -35,13 +39,7 @@ public class NotificationServiceImpl implements NotificationService {
         alert.showAndWait();
     }
 
-    public void showThemeSuccessfullyCreated(){
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Create THEME");
-        alert.setContentText("Theme successfully created!");
-        alert.showAndWait();
-    }
-
+    @Override
     public void showStudentGroupSuccessfullyCreated(){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Create Student Group");
@@ -49,16 +47,9 @@ public class NotificationServiceImpl implements NotificationService {
         alert.showAndWait();
     }
 
-    @Override
-    public void showStatisticUpdated() {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Statistic");
-        alert.setContentText("Statistic successfully updated!");
-        alert.showAndWait();
-    }
-
     ///////////////////     WARNING     ////////////////////
 
+    @Override
     public void showDatabaseAlreadyExist(){
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Create Database");
@@ -66,6 +57,7 @@ public class NotificationServiceImpl implements NotificationService {
         alert.showAndWait();
     }
 
+    @Override
     public void showModuleAlreadyExist(){
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Create Module");
@@ -73,13 +65,7 @@ public class NotificationServiceImpl implements NotificationService {
         alert.showAndWait();
     }
 
-    public void showThemeAlreadyExist(){
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("Create Theme");
-        alert.setContentText("Theme already exist...\n");
-        alert.showAndWait();
-    }
-
+    @Override
     public void showQueryAlreadyExist(){
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Create Query");
@@ -87,6 +73,7 @@ public class NotificationServiceImpl implements NotificationService {
         alert.showAndWait();
     }
 
+    @Override
     public void showGroupAlreadyExist(){
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Create Group");
@@ -94,6 +81,7 @@ public class NotificationServiceImpl implements NotificationService {
         alert.showAndWait();
     }
 
+    @Override
     public void showStudentAlreadyExist() {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Create Student");
@@ -111,6 +99,7 @@ public class NotificationServiceImpl implements NotificationService {
 
     ///////////////////     ERROR     ////////////////////
 
+    @Override
     public void showSomethingWentWrong(){
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Create DATABASE");
@@ -123,6 +112,14 @@ public class NotificationServiceImpl implements NotificationService {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Finish lab");
         alert.setContentText("For finish laboratory work you have to finish all tasks!!!\n");
+        alert.showAndWait();
+    }
+
+    @Override
+    public void showQueryIsInvalid() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Create QUERY");
+        alert.setContentText("Query is invalid...\n");
         alert.showAndWait();
     }
 }

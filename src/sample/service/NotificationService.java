@@ -10,17 +10,11 @@ public interface NotificationService {
 
     void showModuleSuccessfullyCreated();
 
-    void showThemeSuccessfullyCreated();
-
     void showStudentGroupSuccessfullyCreated();
-
-    void showStatisticUpdated();
 
     void showDatabaseAlreadyExist();
 
     void showModuleAlreadyExist();
-
-    void showThemeAlreadyExist();
 
     void showQueryAlreadyExist();
 
@@ -33,4 +27,6 @@ public interface NotificationService {
     void showFinishLabNotAllow();
 
     void showDatabaseDoesNotExist();
+
+    void showQueryIsInvalid();
 }

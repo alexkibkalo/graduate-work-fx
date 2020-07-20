@@ -8,7 +8,7 @@ import java.util.Map;
 
 public interface StudentService {
 
-    boolean attachStudentToLaboratoryWork(Long studentId, Long moduleId, Long visibleQuery);
+    boolean attachStudentToLaboratoryWork(Long studentId, Long moduleId);
 
     boolean hasStudentLaboratoryWork(Long userId, Long labId);
 

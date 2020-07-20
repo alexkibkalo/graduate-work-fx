@@ -4,7 +4,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import sample.controller.routing.RouteController;
@@ -25,9 +24,6 @@ public class SelectModuleController {
 
     @FXML
     private ChoiceBox<String> modules;
-
-    @FXML
-    private TextField visibleQueries;
 
     @FXML
     private Button send;
@@ -57,7 +53,6 @@ public class SelectModuleController {
     @FXML
     public void initialize() {
         nickname.setText("Welcome, " + ActiveUser.getActiveUser().username);
-        visibleQueries.setText("10");
         DataLoader.loadDataToChoiceBox(
                 modules,
                 teacherService.findAllNotFinishedModules(
@@ -73,8 +68,7 @@ public class SelectModuleController {
                 )) {
                     if (studentService.attachStudentToLaboratoryWork(
                             teacherService.findIdByStudentName(activeUser.username),
-                            teacherService.findIdByModuleName(modules.getSelectionModel().getSelectedItem()),
-                            Long.parseLong(visibleQueries.getText())
+                            teacherService.findIdByModuleName(modules.getSelectionModel().getSelectedItem())
                     )) {
                         ActiveModule.setActiveModuleFields(modules.getSelectionModel().getSelectedItem());
                         RouteController.getInstance().redirect(new Stage(), "../../templates/student.fxml");

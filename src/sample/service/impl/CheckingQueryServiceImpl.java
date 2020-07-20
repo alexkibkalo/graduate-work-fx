@@ -69,6 +69,9 @@ public class CheckingQueryServiceImpl implements CheckingQueryService {
                 while (countRows > 0) {
                     if (compareLists(resultSet.get(countRows), trueResult.get(countRows))) {
                         status = true;
+                    } else {
+                        status = false;
+                        break;
                     }
                     countRows--;
                 }

@@ -45,12 +45,6 @@ public class TeacherPageController {
     private TextField moduleName;
 
     @FXML
-    private TextField themeName;
-
-    @FXML
-    private ChoiceBox<String> moduleNames;
-
-    @FXML
     private TextField databaseName;
 
     @FXML
@@ -61,6 +55,9 @@ public class TeacherPageController {
 
     @FXML
     private TextArea description;
+
+    @FXML
+    private TextField queriesPerLab;
 
     @FXML
     private ChoiceBox<String> moduleNamesForQuery;
@@ -87,13 +84,7 @@ public class TeacherPageController {
     private Button addModule;
 
     @FXML
-    private Button addTheme;
-
-    @FXML
     private Button checkOutStatistic;
-
-    @FXML
-    private Button updateStatistic;
 
     ///////////////////////////////////// Services /////////////////////////////////////
 
@@ -108,7 +99,6 @@ public class TeacherPageController {
     ////////////////////////////////// Initialize block /////////////////////////////////
     @FXML
     public void initialize() {
-        DataLoader.loadDataToChoiceBox(moduleNames, teacherService.findAllModules());
         DataLoader.loadDataToChoiceBox(moduleNamesForQuery, teacherService.findAllModules());
         DataLoader.loadDataToChoiceBox(studentGroupNames, teacherService.findAllStudentGroups());
         DataLoader.loadDataToChoiceBox(databaseNames, teacherService.findAllDatabases());
@@ -159,8 +149,10 @@ public class TeacherPageController {
 
         addModule.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
                     if (validationService.moduleAlreadyExist(moduleName.getText())) {
-                        if (teacherService.addModule(moduleName.getText())) {
-                            DataLoader.loadDataToChoiceBox(moduleNames, teacherService.findAllModules());
+                        if (teacherService.addModule(
+                                moduleName.getText(),
+                                Long.parseLong(queriesPerLab.getText())
+                        )) {
                             DataLoader.loadDataToChoiceBox(moduleNamesForQuery, teacherService.findAllModules());
                             notificationService.showModuleSuccessfullyCreated();
                         } else {
@@ -168,24 +160,6 @@ public class TeacherPageController {
                         }
                     } else {
                         notificationService.showModuleAlreadyExist();
-                    }
-                }
-        );
-
-        addTheme.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
-                    if (validationService.themeAlreadyExist(themeName.getText())) {
-                        if (teacherService.addTheme(
-                                themeName.getText(),
-                                teacherService.findIdByModuleName(
-                                        moduleNames.getSelectionModel().getSelectedItem()
-                                )
-                        )) {
-                            notificationService.showThemeSuccessfullyCreated();
-                        } else {
-                            notificationService.showSomethingWentWrong();
-                        }
-                    } else {
-                        notificationService.showThemeAlreadyExist();
                     }
                 }
         );
@@ -209,38 +183,43 @@ public class TeacherPageController {
         );
 
         addQuery.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
-                    if (validationService.queryAlreadyExist(queryName.getText())) {
-                        if (teacherService.addQuery(
-                                queryName.getText(),
-                                description.getText(),
-                                teacherService.findIdByModuleName(
-                                        moduleNamesForQuery.getSelectionModel().getSelectedItem()
-                                ),
-                                teacherService.findIdByDatabaseName(
-                                        databaseNames.getSelectionModel().getSelectedItem()
-                                )
-                        )) {
-                            notificationService.showQuerySuccessfullyCreated();
+                    if (validationService.queryValid(
+                            queryName.getText(),
+                            teacherService.findIdByDatabaseName(
+                                    databaseNames.getSelectionModel().getSelectedItem()
+                            ))
+                    ) {
+                        if (validationService.queryAlreadyExist(queryName.getText())) {
+                            if (teacherService.addQuery(
+                                    queryName.getText(),
+                                    description.getText(),
+                                    teacherService.findIdByModuleName(
+                                            moduleNamesForQuery.getSelectionModel().getSelectedItem()
+                                    ),
+                                    teacherService.findIdByDatabaseName(
+                                            databaseNames.getSelectionModel().getSelectedItem()
+                                    )
+                            )) {
+                                notificationService.showQuerySuccessfullyCreated();
+                            } else {
+                                notificationService.showSomethingWentWrong();
+                            }
                         } else {
-                            notificationService.showSomethingWentWrong();
+                            notificationService.showQueryAlreadyExist();
                         }
                     } else {
-                        notificationService.showQueryAlreadyExist();
+                        notificationService.showQueryIsInvalid();
                     }
                 }
         );
 
-        updateStatistic.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
-            if (teacherService.updateStudentStatistic()) {
-                notificationService.showStatisticUpdated();
-            } else {
-                notificationService.showSomethingWentWrong();
-            }
-        });
-
         checkOutStatistic.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
             try {
-                RouteController.getInstance().redirect(new Stage(), "../../templates/statistics.fxml");
+                if (teacherService.updateStudentStatistic()) {
+                    RouteController.getInstance().redirect(new Stage(), "../../templates/statistics.fxml");
+                } else {
+                    notificationService.showSomethingWentWrong();
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }

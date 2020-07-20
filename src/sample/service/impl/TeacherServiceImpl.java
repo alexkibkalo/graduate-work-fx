@@ -1,6 +1,5 @@
 package sample.service.impl;
 
-import sample.entity.student.Student;
 import sample.service.TeacherService;
 import sample.utils.db.connection.ConnectionUtil;
 import sample.utils.db.constant.QueryConstant;
@@ -66,7 +65,7 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public boolean addModule(String name) {
+    public boolean addModule(String name, Long queriesPerLab) {
 
         Connection connection = ConnectionUtil.getConnection();
         PreparedStatement preparedStatement = null;
@@ -74,29 +73,7 @@ public class TeacherServiceImpl implements TeacherService {
         try {
             preparedStatement = connection.prepareStatement(QueryConstant.CREATE_NEW_MODULE);
             preparedStatement.setString(1, name);
-            preparedStatement.executeUpdate();
-
-            return true;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        } finally {
-            disconnectionUtil.setConnection(connection);
-            disconnectionUtil.setPreparedStatement(preparedStatement);
-            disconnectionUtil.disconnect();
-        }
-        return false;
-    }
-
-    @Override
-    public boolean addTheme(String name, Long moduleId) {
-
-        Connection connection = ConnectionUtil.getConnection();
-        PreparedStatement preparedStatement = null;
-
-        try {
-            preparedStatement = connection.prepareStatement(QueryConstant.CREATE_NEW_THEME);
-            preparedStatement.setString(1, name);
-            preparedStatement.setLong(2, moduleId);
+            preparedStatement.setLong(2, queriesPerLab);
             preparedStatement.executeUpdate();
 
             return true;
@@ -219,42 +196,6 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public List<Student> findAllStudents() {
-
-        Connection connection = ConnectionUtil.getConnection();
-        Statement statement = null;
-        ResultSet resultSet = null;
-        List<Student> students = new ArrayList<>();
-
-        try {
-            statement = connection.createStatement();
-            statement.executeQuery(QueryConstant.SELECT_ALL_STUDENTS);
-            resultSet = statement.getResultSet();
-            Student student;
-
-            while (resultSet.next()) {
-                student = new Student();
-                student.setId(resultSet.getLong("id_s"));
-                student.setName(resultSet.getString("name_s"));
-                student.setSurname(resultSet.getString("surname"));
-                student.setGroupName(resultSet.getString("name_st"));
-                student.setStatus(resultSet.getDouble("status"));
-                students.add(student);
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            disconnectionUtil.setConnection(connection);
-            disconnectionUtil.setStatement(statement);
-            disconnectionUtil.setResultSet(resultSet);
-            disconnectionUtil.disconnect();
-        }
-
-        return students;
-    }
-
-    @Override
     public List<String> findAllNotFinishedModules(Long userId) {
 
         Connection connection = ConnectionUtil.getConnection();
@@ -337,63 +278,6 @@ public class TeacherServiceImpl implements TeacherService {
             disconnectionUtil.disconnect();
         }
         return 0L;
-    }
-
-    @Override
-    public Long findIdByThemeName(String name) {
-
-        Connection connection = ConnectionUtil.getConnection();
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-
-        try {
-            preparedStatement = connection.prepareStatement(QueryConstant.SELECT_THEME_BY_NAME);
-            preparedStatement.setString(1, name);
-
-            resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next()) {
-                return resultSet.getLong("id");
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            disconnectionUtil.setConnection(connection);
-            disconnectionUtil.setPreparedStatement(preparedStatement);
-            disconnectionUtil.setResultSet(resultSet);
-            disconnectionUtil.disconnect();
-        }
-        return 0L;
-    }
-
-    @Override
-    public List<String> findAllThemes() {
-
-        Connection connection = ConnectionUtil.getConnection();
-        Statement statement = null;
-        ResultSet resultSet = null;
-        List<String> themes = new ArrayList<>();
-
-        try {
-            statement = connection.createStatement();
-            statement.executeQuery(QueryConstant.SELECT_ALL_THEMES);
-            resultSet = statement.getResultSet();
-
-            while (resultSet.next()) {
-                themes.add(resultSet.getString("name"));
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            disconnectionUtil.setConnection(connection);
-            disconnectionUtil.setStatement(statement);
-            disconnectionUtil.setResultSet(resultSet);
-            disconnectionUtil.disconnect();
-        }
-
-        return themes;
     }
 
     @Override
@@ -503,7 +387,35 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public boolean validateExistsDatabase(String databaseURL) {
-        Connection connection = ConnectionUtil.getConnectionForLaboratoryWork(databaseURL,"postgres", "root");
+        Connection connection = ConnectionUtil.getConnectionForLaboratoryWork(databaseURL, "postgres", "root");
         return connection != null;
+    }
+
+    @Override
+    public Long findCountVisibleQueriesByModuleId(Long id) {
+
+        Connection connection = ConnectionUtil.getConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(QueryConstant.SELECT_VISIBLE_QUERIES_BY_MODULE_ID);
+            preparedStatement.setLong(1, id);
+
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                return resultSet.getLong("visible_query");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            disconnectionUtil.setConnection(connection);
+            disconnectionUtil.setPreparedStatement(preparedStatement);
+            disconnectionUtil.setResultSet(resultSet);
+            disconnectionUtil.disconnect();
+        }
+        return 0L;
     }
 }

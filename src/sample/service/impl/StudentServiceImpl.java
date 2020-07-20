@@ -17,7 +17,7 @@ public class StudentServiceImpl implements StudentService {
     private final DisconnectionUtil disconnectionUtil = new DisconnectionUtil();
 
     @Override
-    public boolean attachStudentToLaboratoryWork(Long studentId, Long moduleId, Long visibleQuery) {
+    public boolean attachStudentToLaboratoryWork(Long studentId, Long moduleId) {
 
         Connection connection = ConnectionUtil.getConnection();
         PreparedStatement preparedStatement = null;
@@ -27,8 +27,7 @@ public class StudentServiceImpl implements StudentService {
 
             preparedStatement.setLong(1, studentId);
             preparedStatement.setLong(2, moduleId);
-            preparedStatement.setLong(3, visibleQuery);
-            preparedStatement.setLong(4, 0L);
+            preparedStatement.setLong(3, 0L);
 
             preparedStatement.executeUpdate();
 
@@ -165,4 +164,7 @@ public class StudentServiceImpl implements StudentService {
 
         return result;
     }
+
+
+
 }

@@ -16,6 +16,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -23,152 +24,172 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class TaskServiceImpl implements TaskService {
 
     @Override
-    public void initializeTasks(List<Task> list, TabPane tasks) {
+    public void initializeTasks(List<Task> list, TabPane tasks, Long visibleQueries) {
         int index = 1;
+
         for (Task task : list) {
-            Tab tab = new Tab("Task " + index);
 
-            VBox content = new VBox();
+                Tab tab = new Tab("Task " + index);
 
-            content.getChildren().add(new Label());
+                VBox content = new VBox();
 
-            ///////// Sub Content 1 /////////
-            HBox subContent1 = new HBox();
+                content.getChildren().add(new Label());
 
-            Label taskDescription = new Label(task.getDescription());
-            taskDescription.setFont(Font.font(30));
-            taskDescription.setWrapText(true);
+                ///////// Sub Content 1 /////////
+                HBox subContent1 = new HBox();
 
-            subContent1.getChildren().add(new Label());
-            subContent1.getChildren().add(taskDescription);
+                Label taskDescription = new Label(task.getDescription());
+                taskDescription.setFont(Font.font(30));
+                taskDescription.setWrapText(true);
 
-            subContent1.setSpacing(15);
-            /////// end Sub Content 1 ///////
+                subContent1.getChildren().add(new Label());
+                subContent1.getChildren().add(taskDescription);
 
-            ///////// Sub Content 2 /////////
-            HBox subContent2 = new HBox();
+                subContent1.setSpacing(15);
+                /////// end Sub Content 1 ///////
 
-            Label queryLabel = new Label();
-            queryLabel.setText("Query  ");
+                ///////// Sub Content 2 /////////
+                HBox subContent2 = new HBox();
 
-            TextArea queryBody = new TextArea();
-            queryBody.setStyle("-fx-max-height: 200; -fx-max-width: 430");
+                Label queryLabel = new Label();
+                queryLabel.setText("Query  ");
 
-            Label resultLabel = new Label();
-            resultLabel.setText("True result");
+                TextArea queryBody = new TextArea();
+                queryBody.setStyle("-fx-max-height: 200; -fx-max-width: 430");
 
-            TextArea resultBody = new TextArea();
-            resultBody.setStyle("-fx-max-height: 200; -fx-max-width: 430");
+                Label resultLabel = new Label();
+                resultLabel.setText("True result");
 
-            Button showResult = new Button();
-            showResult.setText("Show result");
+                TextArea resultBody = new TextArea();
+                resultBody.setStyle("-fx-max-height: 200; -fx-max-width: 430");
 
-            showResult.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
-                try {
-                    Map<Integer, List<String>> resultMap = studentService.executeTrueQuery(
-                            task.getTrueQuery(),
-                            getDatabaseURLByID(task.getDatabaseId())
-                    );
-                    resultBody.setText(parseResult(resultMap));
-                } catch (SQLException exception) {
-                    resultBody.setText(exception.getMessage());
-                }
-            });
+                Button showResult = new Button();
+                showResult.setText("Show result");
 
-            subContent2.getChildren().add(new Label());
-            subContent2.getChildren().add(queryLabel);
-            subContent2.getChildren().add(queryBody);
-            subContent2.getChildren().add(resultLabel);
-            subContent2.getChildren().add(resultBody);
-            subContent2.getChildren().add(showResult);
+                showResult.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
+                    try {
+                        Map<Integer, List<String>> resultMap = studentService.executeTrueQuery(
+                                task.getTrueQuery(),
+                                getDatabaseURLByID(task.getDatabaseId())
+                        );
+                        resultBody.setText(parseResult(resultMap));
+                    } catch (SQLException exception) {
+                        resultBody.setText(exception.getMessage());
+                    }
+                });
 
-            subContent2.setSpacing(20);
-            /////// end Sub Content 2 ///////
+                subContent2.getChildren().add(new Label());
+                subContent2.getChildren().add(queryLabel);
+                subContent2.getChildren().add(queryBody);
+                subContent2.getChildren().add(resultLabel);
+                subContent2.getChildren().add(resultBody);
+                subContent2.getChildren().add(showResult);
 
-            ///////// Sub Content 3 /////////
-            HBox subContent3 = new HBox();
+                subContent2.setSpacing(20);
+                /////// end Sub Content 2 ///////
 
-            Label trueQueryLabel = new Label();
-            trueQueryLabel.setText("Result ");
+                ///////// Sub Content 3 /////////
+                HBox subContent3 = new HBox();
 
-            TextArea trueResultBody = new TextArea();
-            trueResultBody.setStyle("-fx-max-height: 200; -fx-max-width: 432");
+                Label trueQueryLabel = new Label();
+                trueQueryLabel.setText("Result ");
 
-            Label status = new Label();
-            status.setText(task.getStatus());
+                TextArea trueResultBody = new TextArea();
+                trueResultBody.setStyle("-fx-max-height: 200; -fx-max-width: 432");
 
-            Label countOfTimes = new Label();
-            countOfTimes.setText("0");
+                Label status = new Label();
+                status.setText(task.getStatus());
 
-            subContent3.getChildren().add(new Label());
-            subContent3.getChildren().add(trueQueryLabel);
-            subContent3.getChildren().add(trueResultBody);
-            subContent3.getChildren().add(new Label());
-            subContent3.getChildren().add(status);
-            subContent3.getChildren().add(new Label("Count of times: "));
-            subContent3.getChildren().add(countOfTimes);
+                Label countOfTimes = new Label();
+                countOfTimes.setText("0");
 
-            subContent3.setSpacing(20);
-            /////// end Sub Content 3 ///////
+                subContent3.getChildren().add(new Label());
+                subContent3.getChildren().add(trueQueryLabel);
+                subContent3.getChildren().add(trueResultBody);
+                subContent3.getChildren().add(new Label());
+                subContent3.getChildren().add(status);
+                subContent3.getChildren().add(new Label("Count of times: "));
+                subContent3.getChildren().add(countOfTimes);
 
-            ///////// Sub Content 4 /////////
-            Label emptySpace = new Label("\t\t");
-            HBox subContent4 = new HBox();
+                subContent3.setSpacing(20);
+                /////// end Sub Content 3 ///////
 
-            Button check = new Button();
-            check.setText("Check query");
+                ///////// Sub Content 4 /////////
+                Label emptySpace = new Label("\t\t");
+                HBox subContent4 = new HBox();
 
-            AtomicInteger counter = new AtomicInteger();
+                Button check = new Button();
+                check.setText("Check query");
 
-            check.setOnMouseClicked((event)->{
-                counter.getAndIncrement();
-                countOfTimes.setText(String.valueOf(counter));
-                try {
-                    trueResultBody.setText(
-                            checkingQueryService.checkQuery(
-                                    queryBody.getText(),
-                                    getDatabaseURLByID(task.getDatabaseId()),
-                                    task
-                            )
-                    );
-                } catch (SQLException exception) {
-                    trueResultBody.setText(exception.getMessage());
-                }
-                String statusText = task.getStatus();
-                if (statusText.equals("Success!")) {
-                    tab.setStyle("-fx-background-color: #A6F366");
-                    status.setText(statusText);
-                    status.setTextFill(Color.web("#4FD944"));
-                    setOK(
-                            task.getId(),
-                            counter.get(),
-                            teacherService.findIdByStudentName(ActiveUser.getActiveUser().username)
-                    );
-                } else {
-                    tab.setStyle("-fx-background-color: #F36666");
-                    status.setText(statusText);
-                    status.setTextFill(Color.web("#F36666"));
-                }
-            });
+                AtomicInteger counter = new AtomicInteger();
 
-            subContent4.getChildren().add(emptySpace);
-            subContent4.getChildren().add(check);
+                check.setOnMouseClicked((event) -> {
+                    counter.getAndIncrement();
+                    countOfTimes.setText(String.valueOf(counter));
+                    try {
+                        trueResultBody.setText(
+                                checkingQueryService.checkQuery(
+                                        queryBody.getText(),
+                                        getDatabaseURLByID(task.getDatabaseId()),
+                                        task
+                                )
+                        );
+                    } catch (SQLException exception) {
+                        trueResultBody.setText(exception.getMessage());
+                    }
+                    String statusText = task.getStatus();
+                    if (statusText.equals("Success!")) {
+                        tab.setStyle("-fx-background-color: #A6F366");
+                        status.setText(statusText);
+                        status.setTextFill(Color.web("#4FD944"));
+                        setOK(
+                                task.getId(),
+                                counter.get(),
+                                teacherService.findIdByStudentName(ActiveUser.getActiveUser().username),
+                                queryBody.getText()
+                        );
+                    } else {
+                        tab.setStyle("-fx-background-color: #F36666");
+                        status.setText(statusText);
+                        status.setTextFill(Color.web("#F36666"));
+                    }
+                });
 
-            subContent4.setSpacing(20);
-            /////// end Sub Content 4 ///////
+                subContent4.getChildren().add(emptySpace);
+                subContent4.getChildren().add(check);
 
-            content.getChildren().add(subContent1);
-            content.getChildren().add(subContent2);
-            content.getChildren().add(subContent3);
-            content.getChildren().add(subContent4);
+                subContent4.setSpacing(20);
+                /////// end Sub Content 4 ///////
 
-            content.setSpacing(20);
+                content.getChildren().add(subContent1);
+                content.getChildren().add(subContent2);
+                content.getChildren().add(subContent3);
+                content.getChildren().add(subContent4);
 
-            tab.setContent(content);
-            tasks.getTabs().add(tab);
+                content.setSpacing(20);
 
-            index += 1;
+                tab.setContent(content);
+                tasks.getTabs().add(tab);
+
+                index += 1;
+            }
+//        }
+    }
+
+    private List<Long> getRandomTaskIds(List<Task> tasks, Long countOfVisibleQueries) {
+        List<Long> idsToSelect = new ArrayList<>();
+
+        for (int i = 0; i < countOfVisibleQueries; i++) {
+            long random = (long) (Math.random() * (tasks.size() - 1) + 0);
+            int temp = (int) random;
+            if (!idsToSelect.contains(tasks.get(temp).getId())) {
+                idsToSelect.add(tasks.get(temp).getId());
+            } else {
+                i--;
+            }
         }
+
+        return idsToSelect;
     }
 
     private String parseResult(Map<Integer, List<String>> resultMap) {
@@ -182,6 +203,7 @@ public class TaskServiceImpl implements TaskService {
         return stringBuilder.toString();
     }
 
+    @Override
     public String getDatabaseURLByID(Long id) {
         Connection connection = ConnectionUtil.getConnection();
         PreparedStatement preparedStatement = null;
@@ -205,7 +227,7 @@ public class TaskServiceImpl implements TaskService {
         return url;
     }
 
-    private void setOK(Long queryId, int countOfTimes, Long studentId) {
+    private void setOK(Long queryId, int countOfTimes, Long studentId, String trueQuery) {
         Connection connection = ConnectionUtil.getConnection();
         PreparedStatement preparedStatement = null;
 
@@ -215,8 +237,9 @@ public class TaskServiceImpl implements TaskService {
             preparedStatement.setLong(1, studentId);
             preparedStatement.setLong(2, countOfTimes);
             preparedStatement.setLong(3, queryId);
+            preparedStatement.setString(4, trueQuery);
 
-            if(existsRowInDB(studentId, queryId)){
+            if (existsRowInDB(studentId, queryId)) {
                 preparedStatement.executeUpdate();
             }
 
@@ -242,7 +265,7 @@ public class TaskServiceImpl implements TaskService {
             preparedStatement.setLong(2, queryId);
             resultSet = preparedStatement.executeQuery();
 
-            while(resultSet.next()){
+            while (resultSet.next()) {
                 return false;
             }
 

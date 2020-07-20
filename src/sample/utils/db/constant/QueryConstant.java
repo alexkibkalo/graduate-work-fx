@@ -37,15 +37,17 @@ public class QueryConstant {
     ///////// MODULE ////////////
     public final static String SELECT_ALL_MODULES = "SELECT * FROM module";
     public final static String SELECT_ALL_NOT_FINISHED_MODULES = "SELECT * FROM module m left join student_to_lab stl ON m.id = stl.lab_id and student_id = ? where stl.is_finished = 0 or stl.is_finished is null";
-    public final static String CREATE_NEW_MODULE = "INSERT INTO module (name) VALUES (?)";
+    public final static String CREATE_NEW_MODULE = "INSERT INTO module (name, visible_query) VALUES (?, ?)";
     public final static String SELECT_MODULE_BY_NAME = "SELECT * FROM module WHERE name = ?";
+    public final static String SELECT_VISIBLE_QUERIES_BY_MODULE_ID = "SELECT visible_query FROM module WHERE id = ?";
+//    public final static String SELECT_COUNT_PASSED_QUERIES_BY_MODULE_ID = "SELECT count(*) count_queries FROM module WHERE id = ?";
 
     ////////// JOIN ////////////
-    public final static String CREATE_NEW_JOIN = "INSERT INTO student_to_lab (student_id, lab_id, visible_query, is_finished) VALUES (?, ?, ?, ?)";
+    public final static String CREATE_NEW_JOIN = "INSERT INTO student_to_lab (student_id, lab_id, is_finished) VALUES (?, ?, ?)";
     public final static String SELECT_JOIN_BY_USER_ID_AND_LAB_ID = "SELECT * FROM student_to_lab WHERE student_id = ? and lab_id = ?";
 
     //// Executing Lab Work ////
-    public final static String CREATE_STATUS_SUCCESS = "INSERT INTO result_table (stud_id, count_times, query_id) VALUES (?, ?, ?)";
+    public final static String CREATE_STATUS_SUCCESS = "INSERT INTO result_table (stud_id, count_times, query_id, true_query) VALUES (?, ?, ?, ?)";
     public final static String EXISTS_BY_STUDENT_ID_AND_QUERY_ID = "SELECT * FROM result_table WHERE stud_id = ? and query_id = ?";
 
     /// POPULATION STATISTIC ///

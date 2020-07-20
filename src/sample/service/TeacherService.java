@@ -1,7 +1,5 @@
 package sample.service;
 
-import sample.entity.student.Student;
-
 import java.util.List;
 
 public interface TeacherService {
@@ -12,9 +10,7 @@ public interface TeacherService {
 
     boolean addStudent(String name, String surname, String login, String password, Long groupId);
 
-    boolean addModule(String name);
-
-    boolean addTheme(String name, Long moduleId);
+    boolean addModule(String name, Long queriesPerLab);
 
     boolean addDatabase(String name, String connectionURL);
 
@@ -26,17 +22,11 @@ public interface TeacherService {
 
     List<String> findAllModules();
 
-    List<Student> findAllStudents();
-
     List<String> findAllNotFinishedModules(Long userId);
 
     Long findIdByStudentGroupName(String name);
 
     Long findIdByModuleName(String name);
-
-    Long findIdByThemeName(String name);
-
-    List<String> findAllThemes();
 
     List<String> findAllDatabases();
 
@@ -47,4 +37,6 @@ public interface TeacherService {
     boolean updateStudentStatistic();
 
     boolean validateExistsDatabase(String databaseURL);
+
+    Long findCountVisibleQueriesByModuleId(Long idByModuleName);
 }

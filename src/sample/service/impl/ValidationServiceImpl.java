@@ -1,18 +1,17 @@
 package sample.service.impl;
 
+import sample.service.TaskService;
 import sample.service.ValidationService;
 import sample.utils.db.connection.ConnectionUtil;
 import sample.utils.db.constant.QueryConstant;
 import sample.utils.db.disconnection.DisconnectionUtil;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class ValidationServiceImpl implements ValidationService {
 
     private final DisconnectionUtil disconnectionUtil = new DisconnectionUtil();
+    private final TaskService taskService = new TaskServiceImpl();
 
     @Override
     public boolean authentication(String login, String password, boolean isTeacher) {
@@ -139,34 +138,6 @@ public class ValidationServiceImpl implements ValidationService {
     }
 
     @Override
-    public boolean themeAlreadyExist(String name) {
-
-        Connection connection = ConnectionUtil.getConnection();
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-
-        try {
-            preparedStatement = connection.prepareStatement(QueryConstant.SELECT_THEME_BY_NAME);
-            preparedStatement.setString(1, name);
-
-            resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next()) {
-                return false;
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            disconnectionUtil.setConnection(connection);
-            disconnectionUtil.setPreparedStatement(preparedStatement);
-            disconnectionUtil.setResultSet(resultSet);
-            disconnectionUtil.disconnect();
-        }
-        return true;
-    }
-
-    @Override
     public boolean queryAlreadyExist(String name) {
 
         Connection connection = ConnectionUtil.getConnection();
@@ -192,6 +163,30 @@ public class ValidationServiceImpl implements ValidationService {
             disconnectionUtil.disconnect();
         }
         return true;
+    }
+
+    @Override
+    public boolean queryValid(String name, Long databaseId) {
+
+        boolean result = true;
+        String url = taskService.getDatabaseURLByID(databaseId);
+
+        Connection connection = ConnectionUtil.getConnectionForLaboratoryWork(url, "postgres", "root");
+        Statement statement = null;
+
+        try {
+            statement = connection.createStatement();
+            statement.executeQuery(name);
+        } catch (Exception e) {
+            e.printStackTrace();
+            result = false;
+        } finally {
+            disconnectionUtil.setConnection(connection);
+            disconnectionUtil.setStatement(statement);
+            disconnectionUtil.disconnect();
+        }
+
+        return result;
     }
 
     //////////////// Additional ////////////////

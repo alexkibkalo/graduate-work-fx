@@ -14,7 +14,7 @@ public interface ValidationService {
 
     boolean moduleAlreadyExist(String name);
 
-    boolean themeAlreadyExist(String name);
-
     boolean queryAlreadyExist(String name);
+
+    boolean queryValid(String name, Long databaseId);
 }

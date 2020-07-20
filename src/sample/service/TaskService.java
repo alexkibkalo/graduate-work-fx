@@ -19,7 +19,9 @@ public interface TaskService {
 
     TeacherService teacherService = new TeacherServiceImpl();
 
-    void initializeTasks(List<Task> list, TabPane tasks);
+    void initializeTasks(List<Task> list, TabPane tasks, Long visibleQueries);
+
+    String getDatabaseURLByID(Long id);
 
     boolean existsRowInDB(Long studentId, Long queryId);
 }

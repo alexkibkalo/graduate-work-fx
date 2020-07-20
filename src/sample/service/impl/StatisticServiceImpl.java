@@ -78,7 +78,7 @@ public class StatisticServiceImpl implements StatisticService {
 
         TableColumn<Statistic, String> labToExecuteColumn = new TableColumn<>("labToExecute");
         labToExecuteColumn.setCellValueFactory(new PropertyValueFactory<>("labToExecute"));
-        labToExecuteColumn.setPrefWidth(130);
+        labToExecuteColumn.setPrefWidth(485);
         table.getColumns().add(labToExecuteColumn);
 
         customiseFactory(statusColumn);
@@ -140,7 +140,7 @@ public class StatisticServiceImpl implements StatisticService {
 
             while (resultSet.next()) {
                 String row = resultSet.getString("name");
-                labs = row.substring(row.length() - 2, row.length());
+                labs = row.substring(row.length() - 2);
                 stringBuilder.append(labs).append(", ");
             }
 
