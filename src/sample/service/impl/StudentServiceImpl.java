@@ -199,5 +199,65 @@ public class StudentServiceImpl implements StudentService {
         return result;
     }
 
+    @Override
+    public int getNumberVisibleQueriesForModule(Long moduleId) {
+
+        Connection connection = ConnectionUtil.getConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        int numberVisibleQueriesForModule = -1;
+
+        try {
+            preparedStatement = connection.prepareStatement(QueryConstant.SELECT_NUMBER_VISIBLE_QUERIES_FOR_MODULE);
+            preparedStatement.setLong(1, moduleId);
+
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                numberVisibleQueriesForModule = resultSet.getInt(1);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            disconnectionUtil.setConnection(connection);
+            disconnectionUtil.setPreparedStatement(preparedStatement);
+            disconnectionUtil.setResultSet(resultSet);
+            disconnectionUtil.disconnect();
+        }
+
+        return numberVisibleQueriesForModule;
+    }
+
+    @Override
+    public int getNumberExecutedQueriesForModule(Long moduleId) {
+
+        Connection connection = ConnectionUtil.getConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        int numberExecutedQueriesForModule = -1;
+
+        try {
+            preparedStatement = connection.prepareStatement(QueryConstant.SELECT_NUMBER_EXECUTED_QUERIES_FOR_MODULE);
+            preparedStatement.setLong(1, moduleId);
+
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                numberExecutedQueriesForModule = resultSet.getInt(1);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            disconnectionUtil.setConnection(connection);
+            disconnectionUtil.setPreparedStatement(preparedStatement);
+            disconnectionUtil.setResultSet(resultSet);
+            disconnectionUtil.disconnect();
+        }
+
+        return numberExecutedQueriesForModule;
+    }
+
 
 }

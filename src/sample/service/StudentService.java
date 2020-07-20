@@ -19,4 +19,8 @@ public interface StudentService {
     List<Task> findAllQueriesByLabIdAndStudentId(Long labId, Long studentId);
 
     Map<Integer, List<String>> executeTrueQuery(String query, String url) throws SQLException;
+
+    int getNumberVisibleQueriesForModule(Long moduleId);
+
+    int getNumberExecutedQueriesForModule(Long moduleId);
 }

@@ -27,4 +27,6 @@ public interface NotificationService {
     void showDatabaseDoesNotExist();
 
     void showQueryIsInvalid();
+
+    void showFinishLabNotAllow();
 }

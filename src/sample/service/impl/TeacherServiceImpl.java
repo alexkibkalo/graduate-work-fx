@@ -366,6 +366,9 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public boolean updateStudentStatistic() {
+
+        updateCountExecutedModulesForStudents();
+
         Connection connection = ConnectionUtil.getConnection();
         Statement statement = null;
         boolean status = false;
@@ -382,6 +385,10 @@ public class TeacherServiceImpl implements TeacherService {
             disconnectionUtil.disconnect();
         }
         return status;
+    }
+
+    private void updateCountExecutedModulesForStudents() {
+
     }
 
     @Override
