@@ -27,9 +27,6 @@ public class StudentPageController {
     private Button logout;
 
     @FXML
-    private Button finishLab;
-
-    @FXML
     private TabPane tasks;
 
     @FXML
@@ -53,6 +50,9 @@ public class StudentPageController {
 
     @FXML
     public void initialize() {
+        Long studentId = teacherService.findIdByStudentName(activeUser.username);
+        Long moduleId = teacherService.findIdByModuleName(activeModule.moduleName);
+
         nickname.setText("Welcome, " + ActiveUser.getActiveUser().username);
         nickname.setTextFill(Color.web("#ffffff"));
         Long visibleQueries = teacherService.findCountVisibleQueriesByModuleId(
@@ -60,9 +60,7 @@ public class StudentPageController {
         );
 
         taskService.initializeTasks(
-                studentService.findAllQueriesByLabId(
-                        teacherService.findIdByModuleName(activeModule.moduleName)
-                ),
+                studentService.findAllQueriesByLabId(moduleId),
                 tasks,
                 visibleQueries
         );
@@ -77,17 +75,5 @@ public class StudentPageController {
                     }
                 }
         );
-
-        finishLab.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
-            Long userId = teacherService.findIdByStudentName(activeUser.username);
-            Long moduleId = teacherService.findIdByModuleName(activeModule.moduleName);
-            studentService.finishLab(userId, moduleId);
-            try {
-                activeModule.moduleName = null;
-                RouteController.getInstance().redirect(new Stage(), "../../templates/pre-authorization.fxml");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
     }
 }

@@ -16,5 +16,7 @@ public interface StudentService {
 
     List<Task> findAllQueriesByLabId(Long labId);
 
+    List<Task> findAllQueriesByLabIdAndStudentId(Long labId, Long studentId);
+
     Map<Integer, List<String>> executeTrueQuery(String query, String url) throws SQLException;
 }

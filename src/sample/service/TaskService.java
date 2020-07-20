@@ -21,7 +21,10 @@ public interface TaskService {
 
     void initializeTasks(List<Task> list, TabPane tasks, Long visibleQueries);
 
+    void initializeTasks(List<Task> list, TabPane tasks);
+
     String getDatabaseURLByID(Long id);
 
     boolean existsRowInDB(Long studentId, Long queryId);
+
 }

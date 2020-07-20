@@ -14,7 +14,6 @@ public class QueryConstant {
     ///////// STUDENT ///////////
     public final static String SELECT_USER_BY_LOGIN_AND_PASSWORD = "SELECT * FROM student WHERE login = ? AND password = ?";
     public final static String SELECT_STUDENT_BY_NAME = "SELECT * FROM student WHERE login = ?";
-    public final static String SELECT_ALL_STUDENTS = "SELECT s.id as id_s, s.name as name_s, surname, status, st.name as name_st FROM student s INNER JOIN student_group st ON s.group_id = st.id";
     public final static String CREATE_NEW_STUDENT = "INSERT INTO student (name, surname, login, password, status, group_id) VALUES (?, ?, ?, ?, ?, ?)";
 
     ///////// DATABASE //////////
@@ -23,15 +22,11 @@ public class QueryConstant {
     public final static String SELECT_DATABASE_BY_NAME = "SELECT * FROM database WHERE name = ?";
     public final static String SELECT_URL_BY_ID = "SELECT url FROM database WHERE id = ?";
 
-    ///////// THEME /////////////
-    public final static String SELECT_ALL_THEMES = "SELECT * FROM theme";
-    public final static String CREATE_NEW_THEME = "INSERT INTO theme (name, module_id) VALUES (?, ?)";
-    public final static String SELECT_THEME_BY_NAME = "SELECT * FROM theme WHERE name = ?";
-
     ///////// QUERY /////////////
     public final static String CREATE_NEW_QUERY = "INSERT INTO query (name, description, module_id, database_id) VALUES (?, ?, ?, ?)";
     public final static String SELECT_QUERY_BY_NAME = "SELECT * FROM query WHERE name = ?";
     public final static String SELECT_ALL_QUERIES_BY_LAB_ID = "SELECT * FROM query WHERE module_id = ?";
+    public final static String EXISTS_BY_MODULE_AND_STUDENT = "SELECT * FROM student_to_lab WHERE lab_id = ? and student_id = ?";
     public final static String FINISH_LAB_WORK = "UPDATE student_to_lab SET is_finished = 1 where student_id = ? and lab_id = ?";
 
     ///////// MODULE ////////////
@@ -40,7 +35,6 @@ public class QueryConstant {
     public final static String CREATE_NEW_MODULE = "INSERT INTO module (name, visible_query) VALUES (?, ?)";
     public final static String SELECT_MODULE_BY_NAME = "SELECT * FROM module WHERE name = ?";
     public final static String SELECT_VISIBLE_QUERIES_BY_MODULE_ID = "SELECT visible_query FROM module WHERE id = ?";
-//    public final static String SELECT_COUNT_PASSED_QUERIES_BY_MODULE_ID = "SELECT count(*) count_queries FROM module WHERE id = ?";
 
     ////////// JOIN ////////////
     public final static String CREATE_NEW_JOIN = "INSERT INTO student_to_lab (student_id, lab_id, is_finished) VALUES (?, ?, ?)";

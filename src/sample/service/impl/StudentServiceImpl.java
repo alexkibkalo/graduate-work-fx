@@ -130,6 +130,40 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    public List<Task> findAllQueriesByLabIdAndStudentId(Long labId, Long studentId) {
+
+        Connection connection = ConnectionUtil.getConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        List<Task> tasks = new ArrayList<>();
+
+        try {
+            preparedStatement = connection.prepareStatement(QueryConstant.SELECT_ALL_QUERIES_BY_LAB_ID);
+            preparedStatement.setLong(1, labId);
+
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                Task task = new Task();
+                task.setId(resultSet.getLong("id"));
+                task.setDescription(resultSet.getString("description"));
+                task.setTrueQuery(resultSet.getString("name"));
+                task.setDatabaseId(resultSet.getLong("database_id"));
+                tasks.add(task);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            disconnectionUtil.setConnection(connection);
+            disconnectionUtil.setPreparedStatement(preparedStatement);
+            disconnectionUtil.setResultSet(resultSet);
+            disconnectionUtil.disconnect();
+        }
+        return tasks;
+    }
+
+    @Override
     public Map<Integer, List<String>> executeTrueQuery(String query, String url) throws SQLException {
 
         Connection connection = ConnectionUtil.getConnectionForLaboratoryWork(url, "postgres", "root");
@@ -164,7 +198,6 @@ public class StudentServiceImpl implements StudentService {
 
         return result;
     }
-
 
 
 }

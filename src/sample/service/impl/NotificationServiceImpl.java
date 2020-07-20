@@ -108,14 +108,6 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public void showFinishLabNotAllow() {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Finish lab");
-        alert.setContentText("For finish laboratory work you have to finish all tasks!!!\n");
-        alert.showAndWait();
-    }
-
-    @Override
     public void showQueryIsInvalid() {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Create QUERY");

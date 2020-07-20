@@ -66,7 +66,6 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public boolean addModule(String name, Long queriesPerLab) {
-
         Connection connection = ConnectionUtil.getConnection();
         PreparedStatement preparedStatement = null;
 
